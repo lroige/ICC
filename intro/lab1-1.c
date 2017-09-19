@@ -11,7 +11,7 @@ int main ( void ) {
         k = scanf ("%f %f %f" ,&a ,&b ,&x0);
         aux0 = x0 / a;
         if ( fabs ( aux0 ) > 1.){
-            printf (" No es pot fer l ’ arrel quadrada \n" );
+            printf (" No es pot fer l’arrel quadrada \n" );
             return 1;
         }
     
@@ -55,8 +55,9 @@ int main ( void ) {
         /*Llegim les dades per la seguent execucio*/
         k = scanf ("%f %f %f" ,&a ,&b ,&x0);
         aux0 = x0 / a;
-        if ( fabs ( aux0 ) > 1.){
-            printf (" No es pot fer l ’ arrel quadrada \n" );
+        if (a == 0){continue;}
+        else if ( fabs ( aux0 ) > 1.){
+            printf (" No es pot fer l’arrel quadrada \n" );
             return 1;
         }
     }
