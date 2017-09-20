@@ -4,13 +4,13 @@
 
 #include <stdio.h>
 #include <math.h>
-float poli (float, float[]);
-float horner (float, float[]);
+double poli (double, double[]);
+double horner (double, double[]);
 
 int main (void) {
     int i , m , k;
-    float a , b , x , aval1 , aval2 , h;
-    float coef[8];
+    double a , b , x , aval1 , aval2 , h;
+    double coef[8];
 
     FILE * entrada ;
     entrada = fopen ("coeficients.dad", "r"); /* (1) */
@@ -41,9 +41,9 @@ int main (void) {
     return 0;
 }
 
-float poli (float z, float a[]){
+double poli (double z, double a[]){
     int i;
-    float sum;
+    double sum;
     sum = a[0];
 
     for (i = 1; i <= 7; i++){
@@ -53,9 +53,9 @@ float poli (float z, float a[]){
     return sum;
 }
 
-float horner (float z, float a[]){
+double horner (double z, double a[]){
     int i;
-    float sum;
+    double sum;
     sum = a[7];
 
     for (i = 6; i >= 0; i--){
