@@ -1,13 +1,18 @@
 /* Calcul del producte d’una matriu per un vector usant memoria dinamica*/
 #include <stdio.h>
+#include <stdlib.h>
 
 int main (void){
-	int n, m, i, j;
-	double **a , *u , *v;
+	int n, m, p, i, j;
+	double **a, **b, **c;
 	
-	printf("Doneu les dimensions de la matriu, (n, m) = \n");
+    /*Demanem les dimensions de les matrius i les inicialitzem*/
+	printf("Doneu les dimensions de la matriu A, (n, m) = \n");
 	scanf("%d %d", &n, &m);
 	
+    printf("Doneu les dimensions de la matriu B, (%d, p) = \n", m);
+	scanf("%d", &p);
+    
 	a = (double **) malloc(n*sizeof(double*));
 	
 	if (a == NULL){
@@ -23,14 +28,44 @@ int main (void){
 		}
 	}
 	
-	u = (double *) malloc(m*sizeof(double));
-	v = (double *) malloc(n*sizeof(double));
+	b = (double **) malloc(m*sizeof(double*));
 	
-	if (u == NULL || v == NULL){
+	if (b == NULL){
 		printf("No hi ha prou memoria");
-		return 3;
+		return 1;
 	}
 
+	for (i = 0; i < m; i++){
+		b[i] = (double *) malloc(p*sizeof(double));
+		if (b[i] == NULL){
+			printf("No hi ha prou memoria");
+			return 2;
+		}
+	}
+	
+	c = (double **) malloc(n*sizeof(double*));
+	
+	if (c == NULL){
+		printf("No hi ha prou memoria");
+		return 1;
+	}
+
+	for (i = 0; i < n; i++){
+		c[i] = (double *) malloc(p*sizeof(double));
+		if (c[i] == NULL){
+			printf("No hi ha prou memoria");
+			return 2;
+		}
+	}
+	
+	/*inicialitzem C a zero*/
+    for (i = 0; i < n; i++){
+        for (j = 0; j < p; j++){
+            c[i][j]= 0.;
+        }
+    }
+	
+	/*Demanem les dades de les matrius i les omplim*/
 	printf("Doneu els (%d x %d) elements de la matriu A \n", n, m);
 	for (i = 0; i < n; i++){
 		for (j = 0; j < m; j++){
@@ -38,19 +73,21 @@ int main (void){
 		}
 	}
 
-	printf("Doneu els %d elements del vector u\n", m);
-	
+	printf("Doneu els (%d x %d) elements de la matriu B \n", m, p);
 	for (i = 0; i < m; i++){
-		scanf ("%le", &u[i]);
+		for (j = 0; j < p; j++){
+			scanf ("%le", &b[i][j]);
+		}
 	}
-
+	
+	/*Fem el producte de les matrius*/
 	for (i = 0; i < n; i++){
-		v[i] = 0.;
 		for (j = 0; j < m; j++){
 			v[i] += a[i][j] * u[j];
 		}
 	}
 
+	/*Imprimim el resultat*/
 	printf("El producte de la matriu A = \n");
 
 	for (i = 0; i < n; i++){
@@ -60,22 +97,35 @@ int main (void){
 		printf("\n");
 	}
 
-	printf ("pel vector u = \n");
+	printf ("per la matriu B = \n");
 
 	for (i = 0; i < m; i++){
-		printf ("%16.7e \n", u[i]);
+		for (j = 0; j < p; j++){
+			printf(" %16.7e ", b[i][j]);
+		}
+		printf("\n");
+	}
 	
-	printf ("ens dona v = \n");
+	printf ("ens dona C = \n");
 	
 	for (i = 0; i < n; i++){
-		printf ("%16.7e \n", v[i]);
+		for (j = 0; j < p; j++){
+			printf(" %16.7e ", c[i][j]);
+		}
+		printf("\n");
 	}
 
+	/*Alliberem memoria*/
 	for (i = 0; i < n; i++){
 		free(a[i]);
 	}
+	
+	for (i = 0; i < m; i++){
+        free(b[i]);
+    }
 
 	free(a);
+    free(b);
 	free(u);
 	free(v);
 	
