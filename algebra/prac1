@@ -1,0 +1,11 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+
+void resTinf (int n, double **L, double *x, double *b);
+
+int main(){
+
+
+}
