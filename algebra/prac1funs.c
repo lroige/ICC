@@ -5,16 +5,10 @@
 #include <stdlib.h>
 
 
-void resTinf (int n, double **L, double *x, double *b);
-void resTsup (int n, double **U, double *x, double *b);
-int normaVec (int n, double *vec);//PREGUNTA: ES PODEN POSAR MÉS FUNCIONS A LA LLIBRERIA?????
-void prodMatVec (int n, int m, double **A, double *b);
-void prodMatMat (int n, int m, double **A, double **B);
-
-
 /*Aquesta funcio resol un sistema en una matriu triangular inferior i guarda la solucio al vector x*/
 void resTinf (int n, double **L, double *x, double *b){
-    int i, j, sum;
+    int i, j;
+    double sum;
     
     x[0] = b[0];
     for (i = 1; i < n; i++){
@@ -29,43 +23,54 @@ void resTinf (int n, double **L, double *x, double *b){
 }
 
 /*Aquesta funcio resol un sistema en una matriu triangular superior i guarda la solucio al vector x*/
-void resTinf (int n, double **L, double *x, double *b){
-    int i, j, sum;
+void resTsup (int n, double **L, double *x, double *b){
+    int i, j;
+    double sum;
     
     x[n - 1] = b[n - 1];
-    for (i = 1; i < n; i++){
+    for (i = n - 1; i > 0; i++){
         sum = 0;
-        for (j = 0; j < i; j++){
-            sum += L[i][j] * x[k];
+        for (j = i + 1; j < n; j++){
+            sum += L[i][j] * x[j];
         }
-        x[i] = b[i] - sum;
+        x[i] = (b[i] - sum) / U[i][i];
     }
     
     return 0;
 }
 
-/*Aquesta funcio calcula la norma euclidiana d'un vector i retorna el resultat*/
-int normaVec (int n, double *vec){
-    int sum = 0
-    for (i = 0; i < n; i++){
-        sum += (y[i] - b[i])²;
-    }
-    return sqrt(sum);
-}
-
-/*Aquesta funcio calcula el producte d'una matriu per un vector*/
-//REVISAR I AFEGIR LES CONSIDERACIONS DE M
-void prodMatVec (int n, int m, double **A, double *b){
+/* Aquesta funcio calcula el producte d'una matriu per un vector
+ * multiplica A*x i guarda el resultat en y
+ * A=mxn x=n y=m
+ */
+void prodMatVec (int m, int n, double **A, double *x, double *y){
     int i, j;
-    
-    for(i = 0; i < n; i++){
-        resultat[i] = 0;
-    }
-    
-    for (i = 0; i < n; i++){
+
+    for (i = 0; i < m; i++){
+        y[i] = 0;
         for (j = 0; j < n; j++){
-            resultat[i] += A[i][j] * b[j];
+            y[i] += A[i][j] * x[j];
         }
     }
-    return 1;
+    
+    return 0;
+}
+
+/* Aquesta funcio calcula el producte d'una matriu per una altra
+ * multiplica A*B i guarda el resultat en C
+ * A=mxn B=nxp C=mxp
+ */
+void prodMatMat (int m, int n, int p, double **A, double **B, double **C){
+    int i, j, k;
+
+    for (i = 0; i < m; i++){
+        for (j = 0; j < p; j++){
+            C[i][j] = 0;
+            for (k = 0; k < n; k++){
+                C[i][j] += A[i][k] * B[j][k];
+            }
+        }
+    }
+    
+    return 0;
 }

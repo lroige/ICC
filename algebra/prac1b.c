@@ -5,14 +5,16 @@
 #include <stdlib.h>
 #include <"prac1funs.h">
 
+int ldlt(int n, double **A, double tol);
 
 int main(){
     int n, i, j;
-    double **L, *b, *x, *y, sum, norma;
+    double **L, *b, *x, *y, tol;
 
     printf("Introdueix la dimensio de la matriu: ");
     scanf("%d", &n);
 
+    tol = 1.e-12;
     
     /*Inicialitzem matriu L i vectors b, x i y */
     
@@ -30,10 +32,6 @@ int main(){
             printf("Introduir l'element de la fila %d, columna %d de la matriu:\n", i+1, j+1);
             scanf("%le", &L[i][j]);
         }
-        if (L[i][i] != 1.){
-            print("L'element %d de la diagonal no es 1!");
-            return 1;
-        }
     }
     
     b = (double*)malloc(n*sizeof(double*));
@@ -42,31 +40,6 @@ int main(){
         scanf("%le", &b[i]);
     }
 
-    resTinf(n, L, x, b);
-    
-    prodMatVec(n, n, L, x, y);
-    
-    sum = 0
-    for (i = 0; i < n; i++){
-        sum += (y[i] - b[i])²;
-    }
-    norma = sqrt(sum);
-   
-    /*Imprimim el vector solucio i la norma |Lx-b|2*/
-    printf("El vector solucio es:\n");
-    for(i = 0; i < n; i++){
-        printf("%f    ", x[i]);
-    }
-    printf("\n");
-    
-    printf("La norma |Lx - b|2 es: %le", norma);
-
-    /* ARA TOCA TRANSPOSAR L I CALCULAR LA SOLUCIO DEL SISTEMA UN ALTRE COP!!!!!!
-     * 
-     * 
-     * 
-     */
-    
     
     
     
@@ -79,6 +52,16 @@ int main(){
     free(b);
     free(x);
     free(y)
+    
+    return 0;
+}
+
+int ldlt (int n, double **A, double tol){
+    
+    if A[k][k] < tol{
+        un cop descomposat
+        return 1;
+    }
     
     return 0;
 }
