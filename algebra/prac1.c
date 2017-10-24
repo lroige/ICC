@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <"prac1funs.h">
+#include "prac1funs.h"
 
+void transposar_matriu(int n, double** A);
 
 int main(){
     int n, i, j;
@@ -24,14 +25,19 @@ int main(){
     for (i = 0; i < n; i++){
         L[i]= (double*)malloc(n*sizeof(double));
     }
-
+    
+    /* Llegim la matriu i comprovem que sigui triangular inferior amb uns a la diagonal */
     for (i = 0; i < n; i++){
         for (j = 0; j < n; j++){
             printf("Introduir l'element de la fila %d, columna %d de la matriu:\n", i+1, j+1);
             scanf("%le", &L[i][j]);
         }
         if (L[i][i] != 1.){
-            print("L'element %d de la diagonal no es 1!");
+            printf("L'element %d de la diagonal no es 1!", i+1);
+            return 1;
+        }
+        if (i < j && L[i][j] != 0.0){
+            printf("La matriu no es triangular inferior");
             return 1;
         }
     }
@@ -46,9 +52,9 @@ int main(){
     
     prodMatVec(n, n, L, x, y);
     
-    sum = 0
+    sum = 0;
     for (i = 0; i < n; i++){
-        sum += (y[i] - b[i])²;
+        sum += pow((y[i] - b[i]), 2);
     }
     norma = sqrt(sum);
    
@@ -61,14 +67,24 @@ int main(){
     
     printf("La norma |Lx - b|2 es: %le", norma);
 
-    /* ARA TOCA TRANSPOSAR L I CALCULAR LA SOLUCIO DEL SISTEMA UN ALTRE COP!!!!!!
+    /* 
      * 
-     * 
+     * NO FUNCIONA SQRT???-------------------------------------------------------------!!!!
      * 
      */
     
+    /* Transposem la matriu L i calculem la solució del sistema triangular superior resultant
+     */
+    transposar_matriu(n, n, L);
     
+    resTsup(n, L, x, b);
     
+    /*Imprimim el vector solucio del sistema triangular superior*/
+    printf("El vector solucio del sistema triangular superior es:\n");
+    for(i = 0; i < n; i++){
+        printf("%f    ", x[i]);
+    }
+    printf("\n");
     
     
     /*Alliberar matriu*/
@@ -78,7 +94,22 @@ int main(){
     free(L);
     free(b);
     free(x);
-    free(y)
+    free(y);
     
     return 0;
+}
+
+/*Aquesta funcio transposa una matriu de dimensio n*/
+void transposar_matriu(int n, double** A){
+    double aux;
+    int i, j;
+    for(i = 0; i<n; i++){
+        for(j = 0; j < n; j++){
+            if(i > j){
+                aux = A[i][j];
+                A[i][j] = A[j][i];
+                A[j][i] = aux;
+            }
+        }
+    }
 }

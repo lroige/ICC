@@ -14,16 +14,14 @@ void resTinf (int n, double **L, double *x, double *b){
     for (i = 1; i < n; i++){
         sum = 0;
         for (j = 0; j < i; j++){
-            sum += L[i][j] * x[k];
+            sum += L[i][j] * x[j];
         }
         x[i] = b[i] - sum;
     }
-    
-    return 0;
 }
 
 /*Aquesta funcio resol un sistema en una matriu triangular superior i guarda la solucio al vector x*/
-void resTsup (int n, double **L, double *x, double *b){
+void resTsup (int n, double **U, double *x, double *b){
     int i, j;
     double sum;
     
@@ -31,12 +29,10 @@ void resTsup (int n, double **L, double *x, double *b){
     for (i = n - 1; i > 0; i++){
         sum = 0;
         for (j = i + 1; j < n; j++){
-            sum += L[i][j] * x[j];
+            sum += U[i][j] * x[j];
         }
         x[i] = (b[i] - sum) / U[i][i];
     }
-    
-    return 0;
 }
 
 /* Aquesta funcio calcula el producte d'una matriu per un vector
@@ -52,8 +48,6 @@ void prodMatVec (int m, int n, double **A, double *x, double *y){
             y[i] += A[i][j] * x[j];
         }
     }
-    
-    return 0;
 }
 
 /* Aquesta funcio calcula el producte d'una matriu per una altra
@@ -71,6 +65,4 @@ void prodMatMat (int m, int n, int p, double **A, double **B, double **C){
             }
         }
     }
-    
-    return 0;
 }
