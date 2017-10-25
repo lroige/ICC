@@ -25,8 +25,8 @@ void resTsup (int n, double **U, double *x, double *b){
     int i, j;
     double sum;
     
-    x[n - 1] = b[n - 1];
-    for (i = n - 1; i > 0; i++){
+    x[n - 1] = b[n - 1] / U[n - 1][n - 1];
+    for (i = n - 2; i > 0; i--){
         sum = 0;
         for (j = i + 1; j < n; j++){
             sum += U[i][j] * x[j];

@@ -19,20 +19,18 @@ int main(){
     
     /*Inicialitzem matriu A i vectors b, x i y */
     
-    x = (double*)malloc(n*sizeof(double*));
+    x = (double*)malloc(n*sizeof(double));
 
-    y = (double*)malloc(n*sizeof(double*));
+    y = (double*)malloc(n*sizeof(double));
     
-    z = (double*)malloc(n*sizeof(double*));
+    z = (double*)malloc(n*sizeof(double));
     
-    prod = (double*)malloc(n*sizeof(double*));
+    prod = (double*)malloc(n*sizeof(double));
     
     A = (double**)malloc(n*sizeof(double*));
     for (i = 0; i < n; i++){
         A[i]= (double*)malloc(n*sizeof(double));
     }
-
-    /*----------------------------------------FALLA SQRT-------------------------------------------------/*
     
     /* Llegim la matriu i en comprovem la simetria */
     for (i = 0; i < n; i++){
@@ -47,7 +45,7 @@ int main(){
     }
     
     
-    b = (double*)malloc(n*sizeof(double*));
+    b = (double*)malloc(n*sizeof(double));
     for (i = 0; i < n; i++){
         printf("Introduir l'element %d del vector:\n", i+1);
         scanf("%le", &b[i]);
@@ -97,7 +95,7 @@ int main(){
     
     prodMatVec(n, n, A, x, prod);
     
-    sum = 0;
+    sum = 0.;
     for (i = 0; i < n; i++){
         sum += pow((prod[i] - b[i]), 2);
     }
@@ -106,11 +104,11 @@ int main(){
     /*Imprimim el vector solucio i la norma |Lx-b|2*/
     printf("El vector solucio es:\n");
     for(i = 0; i < n; i++){
-        printf("%f    ", x[i]);
+        printf("%e    ", x[i]);
     }
     printf("\n");
     
-    printf("La norma |Ax - b|2 es: %le", norma);
+    printf("La norma |Ax - b|2 es: %e", norma);
 
     
     /*Alliberar matriu*/
@@ -143,13 +141,15 @@ int ldlt (int n, double **A, double tol){
         if (fabs(A[k][k]) < tol){
             return 1;
         }
-        A[i][k] /= 1 / A[k][k];
+        for (i = 0; i < n; i++){
+            A[i][k] = A[i][k] * 1 / A[k][k];
+        }
     }
     
     return 0;
 }
 
-/*Aquesta funcio transposa una matriu de dimensio n*/
+/*Aquesta funcio transposa una matriu quadrada de dimensio n*/
 void transposar_matriu(int n, double** A){
     double aux;
     int i, j;

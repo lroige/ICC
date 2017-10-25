@@ -17,9 +17,9 @@ int main(){
     
     /*Inicialitzem matriu L i vectors b, x i y */
     
-    x = (double*)malloc(n*sizeof(double*));
+    x = (double*)malloc(n*sizeof(double));
 
-    y = (double*)malloc(n*sizeof(double*));
+    y = (double*)malloc(n*sizeof(double));
     
     L = (double**)malloc(n*sizeof(double*));
     for (i = 0; i < n; i++){
@@ -31,18 +31,19 @@ int main(){
         for (j = 0; j < n; j++){
             printf("Introduir l'element de la fila %d, columna %d de la matriu:\n", i+1, j+1);
             scanf("%le", &L[i][j]);
+            /* Comprovem que l matriu es triangular inferior */    
+            if (i < j && L[i][j] != 0.0){
+                printf("La matriu no es triangular inferior");
+                return 1;
+            }
         }
         if (L[i][i] != 1.){
             printf("L'element %d de la diagonal no es 1!", i+1);
             return 1;
         }
-        if (i < j && L[i][j] != 0.0){
-            printf("La matriu no es triangular inferior");
-            return 1;
-        }
     }
     
-    b = (double*)malloc(n*sizeof(double*));
+    b = (double*)malloc(n*sizeof(double));
     for (i = 0; i < n; i++){
         printf("Introduir l'element %d del vector:\n", i+1);
         scanf("%le", &b[i]);
@@ -59,28 +60,22 @@ int main(){
     norma = sqrt(sum);
    
     /*Imprimim el vector solucio i la norma |Lx-b|2*/
-    printf("El vector solucio es:\n");
+    printf("\nEl vector solucio es:\n");
     for(i = 0; i < n; i++){
         printf("%f    ", x[i]);
     }
     printf("\n");
     
-    printf("La norma |Lx - b|2 es: %le", norma);
-
-    /* 
-     * 
-     * NO FUNCIONA SQRT???-------------------------------------------------------------!!!!
-     * 
-     */
+    printf("\nLa norma |Lx - b|2 es: %le\n", norma);
     
     /* Transposem la matriu L i calculem la solució del sistema triangular superior resultant
      */
-    transposar_matriu(n, n, L);
+    transposar_matriu(n, L);
     
     resTsup(n, L, x, b);
     
     /*Imprimim el vector solucio del sistema triangular superior*/
-    printf("El vector solucio del sistema triangular superior es:\n");
+    printf("\nEl vector solucio del sistema triangular superior es:\n");
     for(i = 0; i < n; i++){
         printf("%f    ", x[i]);
     }
@@ -99,7 +94,7 @@ int main(){
     return 0;
 }
 
-/*Aquesta funcio transposa una matriu de dimensio n*/
+/*Aquesta funcio transposa una matriu quadrada de dimensio n*/
 void transposar_matriu(int n, double** A){
     double aux;
     int i, j;
