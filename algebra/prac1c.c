@@ -13,7 +13,7 @@ int main(){
     double **A, **At, **M, *b, *x, *y, *z, *prod, norma, sum, tol;
 
     printf("Introdueix les dimensions de la matriu (m i n amb m < n i m, n >= 2): \n");
-    scanf("%d %d", &n, &m);
+    scanf("%d %d", &m, &n);
     
     if (n < 2 || m < 2 || n < m){
         printf("Les dimensions de la matriu no serveixen per aquest programa\n");
@@ -33,12 +33,12 @@ int main(){
     prod = (double*)malloc(n*sizeof(double));
     
     A = (double**)malloc(m*sizeof(double*));
-    for (i = 0; i < n; i++){
+    for (i = 0; i < m; i++){
         A[i]= (double*)malloc(n*sizeof(double));
     }
     
     At = (double**)malloc(n*sizeof(double*));
-    for (i = 0; i < m; i++){
+    for (i = 0; i < n; i++){
         At[i]= (double*)malloc(m*sizeof(double));
     }
     
@@ -71,7 +71,7 @@ int main(){
     error = ldlt(n, M, tol);
     
     if (error == 1){
-        printf("No s'ha pogut descomposar la matriu");
+        printf("No s'ha pogut descomposar la matriu\n");
         return 1;
     }
 
