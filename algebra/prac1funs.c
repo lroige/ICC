@@ -20,6 +20,7 @@ void resTinf (int n, double **L, double *x, double *b){
     }
 }
 
+
 /*Aquesta funcio resol un sistema en una matriu triangular superior i guarda la solucio al vector x*/
 void resTsup (int n, double **U, double *x, double *b){
     int i, j;
