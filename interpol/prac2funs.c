@@ -4,11 +4,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-/* Aquesta funcio avalua una funcio en un valor donat (en aquest cas sinus) */
-double f(double x){
-    return sin(x);
-}
-
 /* Aquesta funcio calcula l'aproximacio d'una integral per trapezis */
 double trapezis (int N, double a, double b){
     double tn, fa, fb, h;
@@ -26,4 +21,23 @@ double trapezis (int N, double a, double b){
     tn = h * (0.5 * fa + tn + 0.5 * fb);
     
     return tn;
+}
+
+int Newton (double *x, double tol, int itmax, double c){
+    int i;
+    double prev, f;
+    
+    
+    do {
+        prev = x;
+        
+        f = F(x);
+        df = dF(x);
+        
+        x = prev - (f - c) / df
+    } while (i < itmax && fabs(x - prev) > tol && fabs(f - c) > tol);
+    if (i > itmax){
+        return 1;
+    }
+    return 0;
 }

@@ -22,13 +22,15 @@ int main(){
     nmax = pow(2, nmax);
     
     tn = trapezis(2, a, b);
+    prev = b;
     
-    do{
+    while (n <= nmax && fabs(tn - prev) >= tol){
         prev = tn;
         tn = trapezis(n, a, b);
         
         n = n * 2;
-    } while (n <= nmax || abs(tn - prev) >= tol);
+        printf("fabs = %le\n", fabs(tn - prev));
+    }
     
     if (n > nmax){
         printf("La integral no s'ha pogut calcular amb prou precisio.\n");
@@ -38,4 +40,10 @@ int main(){
     printf("El valor aproximat de la integral es %le\n", tn);
 
     return 0;
+}
+
+
+/* Aquesta funcio avalua una funcio en un valor donat (en aquest cas sinus) */
+double f(double x){
+    return sin(x);
 }
