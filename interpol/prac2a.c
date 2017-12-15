@@ -47,3 +47,11 @@ int main(){
 double f(double x){
     return sin(x);
 }
+
+double F (double x){
+    return x;
+}
+
+double dF (double x){
+    return x;
+}

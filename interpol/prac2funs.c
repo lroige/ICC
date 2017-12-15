@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include "prac2funs.h"
 
 /* Aquesta funcio calcula l'aproximacio d'una integral per trapezis */
 double trapezis (int N, double a, double b){
@@ -12,9 +13,9 @@ double trapezis (int N, double a, double b){
     fa = f(a);
     fb = f(b);
     h = (b - a) / N;
-    tn = fa;
+    tn = 0;
     
-    for (i = 0; i < N; i++){
+    for (i = 1; i < N; i++){
         tn = tn + f(a + i*h);
     }
     
@@ -25,17 +26,18 @@ double trapezis (int N, double a, double b){
 
 int Newton (double *x, double tol, int itmax, double c){
     int i;
-    double prev, f;
+    double prev, f, df;
     
+    i = 0;
     
     do {
-        prev = x;
+        prev = *x;
         
-        f = F(x);
-        df = dF(x);
+        f = F(*x);
+        df = dF(*x);
         
-        x = prev - (f - c) / df
-    } while (i < itmax && fabs(x - prev) > tol && fabs(f - c) > tol);
+        *x = prev - (f - c) / df;
+    } while (i < itmax && fabs(*x - prev) > tol && fabs(f - c) > tol);
     if (i > itmax){
         return 1;
     }
